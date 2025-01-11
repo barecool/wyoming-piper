@@ -148,6 +148,12 @@ class PiperProcessManager:
             if self.args.noise_w:
                 piper_args.extend(["--noise-w", str(self.args.noise_w)])
 
+            if self.args.cuda:
+                piper_args.extend(["--use-cuda"])
+
+            if self.args.debug:
+                piper_args.extend(["--debug"])
+
             _LOGGER.debug(
                 "Starting piper process: %s args=%s", self.args.piper, piper_args
             )
@@ -158,7 +164,7 @@ class PiperProcessManager:
                     *piper_args,
                     stdin=asyncio.subprocess.PIPE,
                     stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.DEVNULL,
+                    stderr=asyncio.subprocess.PIPE,
                 ),
                 config=config,
                 wav_dir=wav_dir,
